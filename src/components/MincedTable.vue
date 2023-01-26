@@ -29,25 +29,82 @@
                 <tbody>
                   <tr
                     v-for="item in approvals"
-                    :key="item.name"
+                    :key="item.pengaju"
                   >
                     <td>{{ item.pengaju }}</td>
                     <td>{{ item.subjek }}</td>
                     <td>{{ item.dokumen }}</td>
-                    <td>{{ item.approv.spv1 }}</td>
+                    <td>
+                      <v-row>
+                        <v-col v-for="apv in item.approv"
+                        :key="apv.spv">
+                          <v-card style="width: 80%;">
+                            <v-card-text>
+                              <p>{{ apv.spv }}</p>
+                              <v-icon
+                                v-if="apv.stat === 'approved'"
+                                large
+                                color="green darken-2"
+                                class="pa-2"
+                              >
+                                mdi-circle
+                              </v-icon>
+                              <v-icon
+                                v-else-if="apv.stat === 'disapproved'"
+                                large
+                                color="red darken-2"
+                                class="pa-2"
+                              >
+                                mdi-circle
+                              </v-icon>
+                              <v-icon
+                                v-else-if="apv.stat === 'waiting'"
+                                large
+                                color="yellow darken-2"
+                                class="pa-2"
+                              >
+                               mdi-circle
+                              </v-icon>
+                              <v-icon
+                                v-else-if="apv.stat === 'invalid'"
+                                large
+                                color="grey darken-2"
+                                class="pa-2"
+                              >
+                                mdi-circle
+                              </v-icon>
+                            </v-card-text>
+                          </v-card>
+                        </v-col>
+                      </v-row>
+                    </td>
                   </tr>
                 </tbody>
               </v-table>
             </v-card-text>
             <v-card-actions>
-              <form :action="sendMessage" @click.prevent="onSubmit">
-                <input v-model="message" type="text">
-                <input type="submit" @click="sendMessage" variant="tonal" style="background-color:aqua" class="pa-3" value="Send">
-              </form>
-              <h4>{{ message }}</h4>
-              <h3>
-                Message Received : {{ rcvMessage }}
-              </h3>
+              <v-row>
+                <v-col>
+                  <form :action="sendMessage" @click.prevent="onSubmit">
+                    <label>Input message: </label>
+                    <input v-model="message" type="text">
+                    <input type="submit" 
+                    @click="sendMessage" 
+                    variant="tonal" 
+                    style="background-color:aqua" 
+                    class="pa-2 ml-16" 
+                    value="Send">
+                  </form>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <h3>
+                    Message Received : {{ rcvMessage }}
+                  </h3>  
+                </v-col>
+              </v-row>
+              
             </v-card-actions>
           </v-card>
         </div>
@@ -67,9 +124,14 @@
             dokumen: '-',
             approv: [
               {
-                spv1: 'Nugroho,approved',
-                spv2: 'Krisna,waiting',
-                spv3: 'Mardi,waiting'
+                spv: 'Nugroho',
+                stat: 'approved' 
+              },{
+                spv: 'Krisna',
+                stat: 'waiting'
+              },{
+                spv: 'Mardi',
+                stat: 'waiting'
               }
             ]
           },
@@ -79,9 +141,14 @@
             dokumen: '-',
             approv: [
               {
-                spv1: 'Nugroho,approved',
-                spv2: 'Krisna,disapproved',
-                spv3: 'Mardi,invalid'
+                spv: 'Nugroho',
+                stat: 'approved' 
+              },{
+                spv: 'Krisna',
+                stat: 'disapproved'
+              },{
+                spv: 'Mardi',
+                stat: 'invalid'
               }
             ]
           },
@@ -91,9 +158,14 @@
             dokumen: '-',
             approv: [
               {
-                spv1: 'Nugroho,disapproved',
-                spv2: 'Krisna,invalid',
-                spv3: 'Mardi,invalid'
+                spv: 'Nugroho',
+                stat: 'disapproved' 
+              },{
+                spv: 'Krisna',
+                stat: 'invalid'
+              },{
+                spv: 'Mardi',
+                stat: 'invalid'
               }
             ]
           },
