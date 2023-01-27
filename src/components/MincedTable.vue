@@ -111,9 +111,16 @@
 </template>
 
 <script>
+
+  import DialogPopup from "./DialogPopup.vue";
+  
   export default {
+    components: {
+      DialogPopup
+    },
     data () {
       return {
+        dialog: false,
         message: "",
         connecti: null,
         rcvMessage: [],
@@ -153,8 +160,8 @@
             ]
           },
           {
-            pengaju: 'Anto Nugroho',
-            subjek: 'Dana Perpustakaan',
+            pengaju: 'Jolyne Widyastuti',
+            subjek: 'Lorem Ipsum',
             dokumen: '-',
             approv: [
               {
@@ -175,16 +182,17 @@
     mounted() {
       this.connecti = new WebSocket("ws://localhost:8080")
       this.connecti.onmessage = (msg) => {
+        console.log(msg.data)
         this.rcvMessage = JSON.parse(msg.data)
       }
     },
     methods: {
       sendMessage() {
-        let msg = {
-          sender : 'userA',
-          "greeting" : this.message,
-        }
-        this.connecti.send(JSON.stringify(msg))
+        // let msg = {
+        //   sender : 'userA',
+        //   "greeting" : this.message,
+        // }
+        this.connecti.send(JSON.stringify(this.approvals))
       },
       
     }
