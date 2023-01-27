@@ -100,7 +100,7 @@
               <v-row>
                 <v-col>
                   <h3>
-                    Message Received : {{ rcvMessage }}
+                    Message Received : {{ rcvMessage["greeting"] }}
                   </h3>  
                 </v-col>
               </v-row>
@@ -116,7 +116,7 @@
       return {
         message: "",
         connecti: null,
-        rcvMessage: "",
+        rcvMessage: [],
         approvals: [
           {
             pengaju: 'Anto Nugroho',
@@ -175,13 +175,14 @@
     mounted() {
       this.connecti = new WebSocket("ws://localhost:8080")
       this.connecti.onmessage = (msg) => {
-        this.rcvMessage = msg.data
+        this.rcvMessage = JSON.parse(msg.data)
       }
     },
     methods: {
       sendMessage() {
         let msg = {
-          "greeting" : this.message
+          sender : 'userA',
+          "greeting" : this.message,
         }
         this.connecti.send(JSON.stringify(msg))
       },
