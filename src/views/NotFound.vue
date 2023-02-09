@@ -3,20 +3,19 @@
       <v-layout>
         <SidebarPop />
         <v-main>
-            <MincedTable/>
+            <h1>PAGE NOT FOUND</h1>
         </v-main>
       </v-layout>
     </v-card>
   </template>
   
   <script>
-    import SidebarPop from "./SidebarPop.vue";
-import MincedTable from "./components/MincedTable.vue";
+    import SidebarPop from "../components/SidebarPop.vue";
   
     export default {  
-      components: {
-    SidebarPop,
-    MincedTable
-},
+        name: 'NotFound',
+        components: {
+            SidebarPop
+        },
     }
   </script>

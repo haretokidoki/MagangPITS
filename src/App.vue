@@ -1,22 +1,35 @@
-<template>
-  <v-card>
-    <v-layout>
-      <SidebarPop />
-      <v-main>
-        <MincedTable/>
-      </v-main>
-    </v-layout>
-  </v-card>
-</template>
-
 <script>
-  import MincedTable from "./components/MincedTable.vue";
-  import SidebarPop from "./components/SidebarPop.vue";
+import Home from './views/HomePage.vue'
+import Document from './views/DocumentPage.vue'
+import Login from './views/LoginPage.vue'
+import NotFound from './views/NotFound.vue'
 
-  export default {  
-    components: {
-      MincedTable,
-      SidebarPop
-    },
+const routes = {
+  '/': Home,
+  '/document': Document,
+  '/login': Login,
+  '/notfound': NotFound
+}
+
+export default {
+  data() {
+    return {
+      currentPath: window.location.hash
+    }
+  },
+  computed: {
+    currentView() {
+      return routes[this.currentPath.slice(1) || '/'] || NotFound
+    }
+  },
+  mounted() {
+    window.addEventListener('hashchange', () => {
+      this.currentPath = window.location.hash
+		})
   }
+}
 </script>
+
+<template>
+  <component :is="currentView" />
+</template>

@@ -42,7 +42,7 @@
                             <v-card-text>
                               <p>{{ apv.spv }}</p>
                               <v-icon
-                                v-if="apv.stat === 'approved'"
+                                v-show="apv.stat === 'approved'"
                                 large
                                 color="green darken-2"
                                 class="pa-2"
@@ -50,7 +50,7 @@
                                 mdi-circle
                               </v-icon>
                               <v-icon
-                                v-else-if="apv.stat === 'disapproved'"
+                                v-show="apv.stat === 'disapproved'"
                                 large
                                 color="red darken-2"
                                 class="pa-2"
@@ -58,7 +58,7 @@
                                 mdi-circle
                               </v-icon>
                               <v-icon
-                                v-else-if="apv.stat === 'waiting'"
+                                v-show="apv.stat === 'waiting'"
                                 large
                                 color="yellow darken-2"
                                 class="pa-2"
@@ -66,7 +66,7 @@
                                mdi-circle
                               </v-icon>
                               <v-icon
-                                v-else-if="apv.stat === 'invalid'"
+                                v-show="apv.stat === 'invalid'"
                                 large
                                 color="grey darken-2"
                                 class="pa-2"
@@ -111,12 +111,9 @@
 </template>
 
 <script>
-
-  import DialogPopup from "./DialogPopup.vue";
   
   export default {
     components: {
-      DialogPopup
     },
     data () {
       return {
