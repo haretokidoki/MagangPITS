@@ -18,7 +18,8 @@
             <v-select
               v-model="document.signer"
               :items="signer"
-              item-title="name"
+              item-title="profile.full_name"
+              item-props="level"
               label="Signer"
               return-object
               multiple
@@ -116,53 +117,19 @@
           updated_at: '',
           signer: []
         },
-        signer: [
-          {
-            "id": "a1441807-4592-4c63-997c-1b93ee86423d",
-            "name": "Marno",
-            "level": 1
-          },
-          {
-            "id": "a123317-4592-4c63-997c-1b93ee86423d",
-            "name": "Marni",
-            "level": 1
-          },
-          {
-            "id": "a2351221-4592-4c63-997c-1b93ee86423d",
-            "name": "Marneng",
-            "level": 1
-          },
-          {
-            "id": "b1441807-4592-4c63-997c-1b93ee86423d",
-            "name": "Warino",
-            "level": 2
-          },
-          {
-            "id": "b123317-4592-4c63-997c-1b93ee86423d",
-            "name": "Jumadi",
-            "level": 2
-          },
-          {
-            "id": "b2351221-4592-4c63-997c-1b93ee86423d",
-            "name": "Satrio",
-            "level": 2
-          },
-          {
-            "id": "a1441807-4592-4c63-997c-1b93ee86423d",
-            "name": "Suparto",
-            "level": 3
-          },
-          {
-            "id": "a123317-4592-4c63-997c-1b93ee86423d",
-            "name": "Sudjatmiko",
-            "level": 3
-          },
-          {
-            "id": "a2351221-4592-4c63-997c-1b93ee86423d",
-            "name": "Sutoyo",
-            "level": 3
-          }
-        ],
+        signer: 
+          this.$axios
+            .get('http://tsic.hanaemi.my.id/users', {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            })
+            
+            .then(response => {
+              this.signer = response.data.data
+              console.log(response.data.data)
+            })
+            .catch(error => {
+              console.error(error)
+            }),
       }
     },
     mounted() {

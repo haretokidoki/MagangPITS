@@ -23,7 +23,7 @@
                         required
                         ></v-text-field>
             
-                        <v-btn color="primary" @click="submit">Login</v-btn>
+                        <v-btn color="primary" @click="login">Login</v-btn>
                     </v-form>
                 </v-card-text>
             </v-card>
@@ -53,23 +53,39 @@
           }
       },
       methods: {
-          submit() {
-              if (this.$refs.form.validate()) {
-                    this.socket = new WebSocket("http://35.202.174.163:3030/")
-                    this.socket.emit(
-                        'create',
-                        'authentication',
-                        {
-                            strategy: 'local',
-                            email: "{{ email }}",
-                            password: "{{ password }}"
-                        },
-                        function (error, authResult) {
-                            console.log(authResult)
-                        }
-                    )
-                }
-          }
+        //   submit() {
+        //       if (this.$refs.form.validate()) {
+        //             this.socket = new WebSocket("http://35.202.174.163:3030/")
+        //             this.socket.emit(
+        //                 'create',
+        //                 'authentication',
+        //                 {
+        //                     strategy: 'local',
+        //                     email: "{{ email }}",
+        //                     password: "{{ password }}"
+        //                 },
+        //                 function (error, authResult) {
+        //                     console.log(authResult)
+        //                 }
+        //             )
+        //         }
+        //   }
+        async login() {
+            console.log(this.email + this.password)
+            try {
+                const response = await this.$axios.post('http://tsic.hanaemi.my.id/authentication', {
+                    strategy: 'local',
+                    email: this.email,
+                    password: this.password
+                })
+                localStorage.setItem('token', response.data.accessToken)
+                localStorage.setItem('userdata', JSON.stringify(response.data))
+                window.location.href= '#/'
+            } catch (error) {
+                console.error(error)
+            }
+            
+        }
       }
   }
   </script>
